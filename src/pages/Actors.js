@@ -5,8 +5,8 @@ function Actors() {
   const [actors, setActors] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:3000/actors')
-    .then(response => response.json)
+    fetch('http://localhost:4000/actors')
+    .then(response => response.json())
     .then((data) => {
       setActors(data)
     })

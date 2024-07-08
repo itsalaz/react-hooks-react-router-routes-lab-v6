@@ -10,8 +10,7 @@ function Movie () {
     fetch(`http://localhost:4000/movies/${id}`)
     .then((response) => response.json())
     .then((data) => {
-      const foundMovie = data.movies.find(movie => movie.id === parseInt(id))
-      setMovie(foundMovie)
+      setMovie(data)
     })
     .catch(error => console.error("Error fetching movie:", error))
   }, [id])
