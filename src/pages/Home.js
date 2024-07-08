@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-import routes from "../routes.js"
+import React, { useEffect, useState } from "react"
 import NavBar from "../components/NavBar"
+import MovieCard from "../components/MovieCard"
+import routes from "../routes"
 
 function Home() {
-  const [movies, setMovies] = useState([])
-
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/')
-    .then(response => response.json)
-    .then((data) => {
-      setMovies(data)
-    })
-    .catch((error) => console.error(error))
+    fetch('http://localhost:4000/movies')
+      .then(response => response.json())
+      .then(data => setMovies(data.movies))
+      .catch(error => console.error('Error fetching data:', error))
   }, [])
 
   return (
@@ -23,7 +21,7 @@ function Home() {
       <main>
         <h1>Home Page</h1>
         {movies.map(movie => (
-          <MovieCard key={movie.id} movie= {movie}/>
+          <MovieCard key={movie.id} movie= {movie} />
         ))}
       </main>
     </>

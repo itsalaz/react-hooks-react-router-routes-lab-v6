@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react"
 import {useParams} from "react-router-dom"
 import NavBar from "../components/NavBar"
-import MovieCard from "../components/MovieCard"
 
-function Movie() {
-  const [movie, setMovie] = ({})
-  const {id} = useParams
-  
+function Movie () {
+  const {id} = useParams()
+  const [movie, setMovie] = useState(null)
+
   useEffect(() => {
-    fetch(`http://localhost:3000/movies/${id}`)
-    .then(response => response.json)
+    fetch(`http://localhost:4000/movies/${id}`)
+    .then((response) => response.json())
     .then((data) => {
-      setMovie(data)
+      const foundMovie = data.movies.find(movie => movie.id === parseInt(id))
+      setMovie(foundMovie)
     })
-    .catch((error) => console.error(error))
-  }, [movie.id])
+    .catch(error => console.error("Error fetching movie:", error))
+  }, [id])
 
-  if(!movie.name){
-    return <h1>Loading...</h1>
-  };
+  if(!movie) {
+    return <h1>Movie not found</h1>
+  }
 
   return (
       <div>
@@ -26,11 +26,10 @@ function Movie() {
         <h1>{movie.title}</h1>
         <p>{movie.time} min</p>
         <div>
-          {movie.genres && movie.genres.map((genre, index) => {
+          {movie.genres.map((genre, index) => {
             <span key={index}>{genre}</span>
           })}
         </div>
-        <MovieCard movie={movie}/>
       </div>
   );
 };
